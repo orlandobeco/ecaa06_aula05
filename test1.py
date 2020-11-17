@@ -122,7 +122,6 @@ def timerCallBack(event):
         
     
     elif estado == 2:
-        """
         if scan_len > 0:
             read = min(scan.ranges)
             print(read)
@@ -145,17 +144,18 @@ def timerCallBack(event):
         else:
             control = 0
             error = 1
-        
-        msg = Twist()
-        msg.angular.z = 0
-        msg.linear.x = control
-        pub.publish(msg)
-        
-        if abs(error) < 0.5:
+            
+        if abs(error) < 0.1:
             Int = 0
             estado = 1
             old_error = 0
-"""
+            control = 0
+            
+        msg = Twist()
+        msg.linear.x = control
+        pub.publish(msg)
+        
+
 pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 odom_sub = rospy.Subscriber('/odom', Odometry, odomCallBack)
 scan_sub = rospy.Subscriber('/scan', LaserScan, scanCallBack)
