@@ -73,6 +73,7 @@ def timerCallBack(event):
     scan_len = len(scan.ranges)
     
     if estado == 1:
+        control = 0;
         if scan_len > 0:
             yaw = getAngle(odom)
             
@@ -119,8 +120,9 @@ def timerCallBack(event):
             old_error = 0
             msg.angular.z = 0
             estado = 2
-    """
+    
     elif estado == 2:
+        """
         if scan_len > 0:
             read = min(scan.ranges)
             print(read)
