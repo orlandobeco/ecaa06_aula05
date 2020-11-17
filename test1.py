@@ -122,8 +122,9 @@ def timerCallBack(event):
     elif estado == 2:
         if scan_len > 0:
             read = min(scan.ranges)
-            error = (setpoint - read)
-            
+            print(read)
+            error = -(setpoint - read)
+            print(error)
             
             delta_e = error - old_error
             old_error = error
