@@ -101,25 +101,25 @@ def timerCallBack(event):
             D = (delta_e/tempo)* kd
             
             control = P+I+D
-            if control > 1:
-                control = 1
-            elif control < -1:
-                control = -1
+            if control > 0.5:
+                control = 0.5
+            elif control < -0.5:
+                control = -0.5
         else:
             control = 0
             error = 180
+        
+        if abs(error) < 1:
+            Int = 0
+            old_error = 0
+            control = 0
+            estado = 2
         
         msg = Twist()
         msg.linear.x = 0
         msg.angular.z = control
         pub.publish(msg)
         
-        if abs(error) < 1:
-            Int = 0
-            old_error = 0
-            control = 0
-            msg.angular.z = 0
-            estado = 2
     
     elif estado == 2:
         """
