@@ -6,10 +6,10 @@ import tf
 import math
 
 
-kp = 0.3
-ki = 0.05
+kp = 1
+ki = 0.1
 Int = 0
-kd = 0.1
+kd = 0.3
 old_error = 0
 estado = 1
 
