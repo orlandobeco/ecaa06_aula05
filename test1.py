@@ -130,7 +130,7 @@ def timerCallBack(event):
             P = kp*error
             Int += error*tempo
             I = Int * ki
-            D = delta_e * kd * tempo
+            D = delta_e * kd/tempo
             
             control = P+I+D
             if control > 0.5:
