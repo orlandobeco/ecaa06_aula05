@@ -7,9 +7,9 @@ import math
 
 
 kp = 1
-ki = 0.1
+ki = 0.3
 Int = 0
-kd = 0.5
+kd = 0.2
 old_error = 0
 estado = 1
 
