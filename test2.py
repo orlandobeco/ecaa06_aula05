@@ -42,6 +42,7 @@ def timerCallBack(event):
     global kp, ki, kd
     global Int
     global old_error
+    global estado
     """
     yaw = getAngle(odom)
     setpoint = -45
