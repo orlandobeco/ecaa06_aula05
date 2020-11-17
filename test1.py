@@ -7,7 +7,7 @@ import math
 
 
 kp = 1
-ki = 0.5
+ki = 0.1
 Int = 0
 kd = 0.5
 old_error = 0
