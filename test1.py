@@ -172,6 +172,14 @@ def timerCallBack(event):
             if error > 0.1:
                 estado = 1
             
+            if error <= 0.1:
+                print("Chegou!")
+                estado = 4
+        msg = Twist()
+        msg.linear.x = 0
+        msg.linear.z = 0
+        pub.publish(msg)
+    else:
         msg = Twist()
         msg.linear.x = 0
         msg.linear.z = 0
