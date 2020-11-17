@@ -133,10 +133,10 @@ def timerCallBack(event):
             D = delta_e * kd * tempo
             
             control = P+I+D
-            if control > 1:
-                control = 1
-            elif control < -1:
-                control = -1
+            if control > 0.5:
+                control = 0.5
+            elif control < -0.5:
+                control = -0.5
         else:
             control = 0
         
