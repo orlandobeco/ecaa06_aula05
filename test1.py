@@ -85,10 +85,10 @@ def timerCallBack(event):
             D = (delta_e/tempo)* kd
             
             control = P+I+D
-            if control > 0.5:
-                control = 0.5
-            elif control < -0.5:
-                control = -0.5
+            if control > 1:
+                control = 1
+            elif control < -1:
+                control = -1
         else:
             control = 0
             error = 180
@@ -122,10 +122,10 @@ def timerCallBack(event):
             D = (delta_e/tempo) * kd
             
             control = P+I+D
-            if control > 0.5:
-                control = 0.5
-            elif control < -0.5:
-                control = -0.5
+            if control > 1:
+                control = 1
+            elif control < -1:
+                control = -1
         else:
             control = 0
             error = 1
