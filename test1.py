@@ -85,10 +85,10 @@ def timerCallBack(event):
             D = (delta_e/tempo)* kd
             
             control = P+I+D
-            if control > 1:
-                control = 1
-            elif control < -1:
-                control = -1
+            if control > 0.5:
+                control = 0.5
+            elif control < -0.5:
+                control = -0.5
         else:
             control = 0
             error = 180
@@ -122,10 +122,10 @@ def timerCallBack(event):
             D = (delta_e/tempo) * kd
             
             control = P+I+D
-            if control > 1:
-                control = 1
-            elif control < 1:
-                control = -1
+            if control > 0.5:
+                control = 0.5
+            elif control < -0.5:
+                control = -0.5
         else:
             control = 0
             error = 1
@@ -135,14 +135,18 @@ def timerCallBack(event):
             estado = 3
             old_error = 0
             control = 0
-        print("Controle: ")
-        print(control)   
+            
         msg = Twist()
         msg.linear.x = control
         pub.publish(msg)
         
     elif estado == 3:
         if scan_len > 0:
+            read = min(scan.ranges)
+            error = -(setpoint - read)
+            if error > 0.1:
+                estado = 2
+            
             yaw = getAngle(odom)
             ind = scan.ranges.index(min(scan.ranges))
             inc = 2*math.pi / scan_len
@@ -150,14 +154,8 @@ def timerCallBack(event):
             if ang > 180:
                 ang -= 360
             error = (ang - yaw)
-            if error > 0.5:
-                estado = 1
-            
-            read = min(scan.ranges)
-            error = -(setpoint - read)
             if error > 0.1:
-                estado = 2
-            
+                estado = 1
             
             if error <= 0.1:
                 print("Chegou!")
