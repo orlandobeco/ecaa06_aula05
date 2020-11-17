@@ -135,7 +135,8 @@ def timerCallBack(event):
             estado = 3
             old_error = 0
             control = 0
-            
+        print("Controle: ")
+        print(control)   
         msg = Twist()
         msg.linear.x = control
         pub.publish(msg)
