@@ -7,9 +7,9 @@ import math
 
 
 kp = 1
-ki = 0.3
+ki = 0.05
 Int = 0
-kd = 0.2
+kd = 0.1
 old_error = 0
 estado = 1
 
@@ -114,7 +114,8 @@ def timerCallBack(event):
             old_error = 0
             control = 0
             estado = 2
-        
+        print("Controle: ")
+        print(control)
         msg = Twist()
         msg.linear.x = 0
         msg.angular.z = control
