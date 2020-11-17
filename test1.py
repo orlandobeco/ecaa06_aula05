@@ -11,8 +11,17 @@ ki = 0.5
 Int = 0
 kd = 0.5
 old_error = 0
+estado = 1
 
-T = 0.1
+#soma dos numeros da matricula:
+#Erica = 29
+#Joao = 25
+#Orlando = 21
+#Patricia = 38
+#Media = 28.25
+#freq = Media
+#tempo = 1/freq
+tempo = 1/28.25
 
 odom = Odometry()
 scan = LaserScan()
@@ -40,7 +49,9 @@ def scanCallBack(msg):
 # TIMER - Control Loop ----------------------------------------------
 def timerCallBack(event):
     global kp, ki, kd
-    global Intglobal old_error
+    global Int
+    global old_error
+    global estado
     """
     yaw = getAngle(odom)
     setpoint = -45
@@ -58,12 +69,10 @@ def timerCallBack(event):
     dist = setpoint[0] - position.x #math.sqrt((setpoint[0] - position.x)**2 + (setpoint[1] - position.y) **2)
     error = dist
     """
+    setpoint = 0.5
+    scan_len = len(scan.ranges)
     
     if estado == 1:
-        setpoint = 0.5
-        
-        scan_len = len(scan.ranges)
-        
         if scan_len > 0:
             yaw = getAngle(odom)
             
@@ -87,7 +96,7 @@ def timerCallBack(event):
             old_error = error
             
             P = kp*error
-            Int += error*T
+            Int += error*tempo
             I = Int * ki
             D = delta_e * kd
             
@@ -106,11 +115,29 @@ def timerCallBack(event):
         if abs(error) < 1:
             Int = 0
             estado = 2
+            old_error = 0
     
     elif estado == 2:
-        read = min(scan.ranges)
-        
-        # PID
+        if scan_len > 0:
+            read = min(scan.ranges)
+            error = -(setpoint - read)
+            
+            
+            delta_e = error - old_error
+            old_error = error
+            
+            P = kp*error
+            Int += error*tempo
+            I = Int * ki
+            D = delta_e * kd
+            
+            control = P+I+D
+            if control > 1:
+                control = 1
+            elif control < -1:
+                control = -1
+        else:
+            control = 0
         
         msg = Twist()
         msg.linear.x = control
@@ -121,6 +148,6 @@ pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 odom_sub = rospy.Subscriber('/odom', Odometry, odomCallBack)
 scan_sub = rospy.Subscriber('/scan', LaserScan, scanCallBack)
 
-timer = rospy.Timer(rospy.Duration(T), timerCallBack)
+timer = rospy.Timer(rospy.Duration(tempo), timerCallBack)
 
 rospy.spin()
