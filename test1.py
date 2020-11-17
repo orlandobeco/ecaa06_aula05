@@ -110,6 +110,7 @@ def timerCallBack(event):
             error = 180
         
         msg = Twist()
+        msg.linear.x = 0
         msg.angular.z = control
         pub.publish(msg)
         
@@ -141,6 +142,7 @@ def timerCallBack(event):
             control = 0
         
         msg = Twist()
+        msg.angular.z = 0
         msg.linear.x = control
         pub.publish(msg)
         
