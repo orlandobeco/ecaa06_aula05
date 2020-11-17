@@ -98,7 +98,7 @@ def timerCallBack(event):
             P = kp*error
             Int += error*tempo
             I = Int * ki
-            D = delta_e * kd
+            D = delta_e * kd*tempo
             
             control = P+I+D
             if control > 1:
@@ -106,7 +106,8 @@ def timerCallBack(event):
             elif control < -1:
                 control = -1
         else:
-            control = 0        
+            control = 0
+            error = 180
         
         msg = Twist()
         msg.angular.z = control
@@ -129,7 +130,7 @@ def timerCallBack(event):
             P = kp*error
             Int += error*tempo
             I = Int * ki
-            D = delta_e * kd
+            D = delta_e * kd * tempo
             
             control = P+I+D
             if control > 1:
