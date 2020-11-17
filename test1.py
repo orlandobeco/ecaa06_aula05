@@ -7,7 +7,7 @@ import math
 
 
 kp = 1
-ki = 0.1
+ki = 0.5
 Int = 0
 kd = 0.5
 old_error = 0
@@ -73,7 +73,6 @@ def timerCallBack(event):
     scan_len = len(scan.ranges)
     
     if estado == 1:
-        control = 0;
         if scan_len > 0:
             yaw = getAngle(odom)
             
@@ -118,6 +117,7 @@ def timerCallBack(event):
         if abs(error) < 1:
             Int = 0
             old_error = 0
+            control = 0
             msg.angular.z = 0
             estado = 2
     
