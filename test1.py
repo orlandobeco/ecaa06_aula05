@@ -118,7 +118,7 @@ def timerCallBack(event):
             Int = 0
             estado = 2
             old_error = 0
-    
+    """
     elif estado == 2:
         if scan_len > 0:
             read = min(scan.ranges)
@@ -152,7 +152,7 @@ def timerCallBack(event):
             Int = 0
             estado = 1
             old_error = 0
-
+"""
 pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 odom_sub = rospy.Subscriber('/odom', Odometry, odomCallBack)
 scan_sub = rospy.Subscriber('/scan', LaserScan, scanCallBack)
