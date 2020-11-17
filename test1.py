@@ -98,7 +98,7 @@ def timerCallBack(event):
             P = kp*error
             Int += error*tempo
             I = Int * ki
-            D = delta_e * kd*tempo
+            D = (delta_e/tempo)* kd
             
             control = P+I+D
             if control > 1:
@@ -132,7 +132,7 @@ def timerCallBack(event):
             P = kp*error
             Int += error*tempo
             I = Int * ki
-            D = delta_e * kd/tempo
+            D = (delta_e/tempo) * kd
             
             control = P+I+D
             if control > 0.5:
@@ -141,12 +141,17 @@ def timerCallBack(event):
                 control = -0.5
         else:
             control = 0
+            error = 1
         
         msg = Twist()
         msg.angular.z = 0
         msg.linear.x = control
         pub.publish(msg)
         
+        if abs(error) < 0.5:
+            Int = 0
+            estado = 1
+            old_error = 0
 
 pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 odom_sub = rospy.Subscriber('/odom', Odometry, odomCallBack)
