@@ -116,9 +116,9 @@ def timerCallBack(event):
         
         if abs(error) < 1:
             Int = 0
-            estado = 2
             old_error = 0
             msg.angular.z = 0
+            estado = 2
     """
     elif estado == 2:
         if scan_len > 0:
