@@ -6,7 +6,7 @@ import tf
 import math
 
 
-kp = 1
+kp = 0.3
 ki = 0.05
 Int = 0
 kd = 0.1
@@ -52,23 +52,7 @@ def timerCallBack(event):
     global Int
     global old_error
     global estado
-    """
-    yaw = getAngle(odom)
-    setpoint = -45
-    error = (setpoint - yaw)
     
-    if abs(error) > 180:
-        if setpoint < 0:
-            error += 360 
-        else:
-            error -= 360
-    """
-    """
-    setpoint = (-1,-1)
-    position = odom.pose.pose.position
-    dist = setpoint[0] - position.x #math.sqrt((setpoint[0] - position.x)**2 + (setpoint[1] - position.y) **2)
-    error = dist
-    """
     setpoint = 0.5
     scan_len = len(scan.ranges)
     
