@@ -109,7 +109,7 @@ def timerCallBack(event):
             control = 0
             error = 180
         
-        if abs(error) < 1:
+        if abs(error) < 0.1:
             Int = 0
             old_error = 0
             control = 0
@@ -147,7 +147,7 @@ def timerCallBack(event):
             
         if abs(error) < 0.1:
             Int = 0
-            estado = 1
+            estado = 3
             old_error = 0
             control = 0
             
@@ -155,6 +155,27 @@ def timerCallBack(event):
         msg.linear.x = control
         pub.publish(msg)
         
+    elif estado == 3:
+        if scan_len > 0:
+            read = min(scan.ranges)
+            error = -(setpoint - read)
+            if error > 0.1:
+                estado = 2
+            
+            yaw = getAngle(odom)
+            ind = scan.ranges.index(min(scan.ranges))
+            inc = 2*math.pi / scan_len
+            ang = (ind * inc * 180.0/math.pi) + yaw
+            if ang > 180:
+                ang -= 360
+            error = (ang - yaw)
+            if error > 0.1:
+                estado = 1
+            
+        msg = Twist()
+        msg.linear.x = 0
+        msg.linear.z = 0
+        pub.publish(msg)
 
 pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 odom_sub = rospy.Subscriber('/odom', Odometry, odomCallBack)
