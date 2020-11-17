@@ -6,10 +6,10 @@ import tf
 import math
 
 
-kp = 1
-ki = 0.1
+kp = 0.3
+ki = 0.01
 Int = 0
-kd = 0.3
+kd = 0.2
 old_error = 0
 estado = 1
 
@@ -85,10 +85,10 @@ def timerCallBack(event):
             D = (delta_e/tempo)* kd
             
             control = P+I+D
-            if control > 1:
-                control = 1
-            elif control < -1:
-                control = -1
+            if control > 0.5:
+                control = 0.5
+            elif control < -0.5:
+                control = -0.5
         else:
             control = 0
             error = 180
@@ -122,10 +122,10 @@ def timerCallBack(event):
             D = (delta_e/tempo) * kd
             
             control = P+I+D
-            if control > 1:
-                control = 1
-            elif control < -1:
-                control = -1
+            if control > 0.5:
+                control = 0.5
+            elif control < -0.5:
+                control = -0.5
         else:
             control = 0
             error = 1
